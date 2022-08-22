@@ -1,5 +1,7 @@
 package us.tfg.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,17 @@ public class CoberturaServiceImpl implements CoberturaService {
 	@Override
 	public void save(Cobertura cobertura) {
 		coberturaDAO.save(cobertura);
+	}
+
+	@Override
+	public List<Cobertura> findByOperadora(String operadora) {
+		return coberturaDAO.findByOperadora(operadora);
+	}
+
+	@Override
+	public List<Cobertura> findAll() {
+		return coberturaDAO.findAll();
+
 	}
 
 }

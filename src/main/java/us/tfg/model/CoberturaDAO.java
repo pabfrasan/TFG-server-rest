@@ -1,7 +1,12 @@
 package us.tfg.model;
 
+import java.util.List;
 
-public interface CoberturaDAO {
+import org.springframework.data.repository.CrudRepository;
 
-	public void save(Cobertura cobertura);
+public interface CoberturaDAO extends CrudRepository<Cobertura, Long> {
+
+	public List<Cobertura> findByOperadora(String operadora);
+	
+	public List<Cobertura> findAll();
 }

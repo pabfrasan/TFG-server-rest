@@ -6,6 +6,8 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +19,14 @@ import us.tfg.model.Cobertura;
 import us.tfg.service.CoberturaService;
 
 @RestController
-@RequestMapping("/cobertura")
+@RequestMapping("/")
 public class CoberturaRestController {
 	
 	@Autowired
 	CoberturaService coberturaService;
 	
-    @GetMapping("/{datosCobertura}")
-    public void findAll(@PathVariable String datosCobertura){
+    @GetMapping("save/{datosCobertura}")
+    public void gaurdar(@PathVariable String datosCobertura){
         String[] listaValores = datosCobertura.split("&");
         
         Cobertura c = new Cobertura();
@@ -39,6 +41,24 @@ public class CoberturaRestController {
         c.setSdkVersion(listaValores[8]);
         
         coberturaService.save(c);
+    }
+    
+    @GetMapping("findByOperadora/{operadora}")
+    public List<Cobertura> findByOperadora(@PathVariable String operadora){
+        return coberturaService.findByOperadora(operadora);     
+    }
+    
+    @GetMapping("findAll")
+    public List<Cobertura> findAll(){
+        return coberturaService.findAll();  
+    }
+    @GetMapping("findAllOperadoras")
+    public List<String> findAllOperadoras(){
+        return coberturaService.findAll()
+        		.stream()
+        		.map(x->x.getOperadora())
+        		.distinct()
+        		.collect(Collectors.toList());     
     }
 	
     private LocalDateTime formatearFecha(String UtcDateTime) {
